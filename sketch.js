@@ -58,7 +58,7 @@ function draw() {
       let textArray = userText.split('');
       for (let j = 0; j < textArray.length; j++) {
         fill(0);
-        textSize(65);
+        textSize(25);
         textAlign(CENTER, CENTER);
         text(textArray[j], xOffsets[i], positions[i] - imgs[i].height / 10 + j * 32);
       }
