@@ -5,7 +5,7 @@ let xOffsets = [];
 let xSpeeds = [];
 let startAnimation = false;
 let userText = '';
-let numImages = 2; // 图片数量
+let numImages = 4; // 图片数量
 
 let bgImage;
 let say_something = "";
@@ -58,7 +58,7 @@ function draw() {
       let textArray = userText.split('');
       for (let j = 0; j < textArray.length; j++) {
         fill(0);
-        textSize(25);
+        textSize(28);
         textAlign(CENTER, CENTER);
         text(textArray[j], xOffsets[i], positions[i] - imgs[i].height / 10 + j * 32);
       }
