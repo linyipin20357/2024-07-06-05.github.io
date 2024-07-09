@@ -5,7 +5,7 @@ let xOffsets = [];
 let xSpeeds = [];
 let startAnimation = false;
 let userText = '';
-let numImages = 4; // 图片数量
+let numImages = 3; // 图片数量
 
 let bgImage;
 let say_something = "";
