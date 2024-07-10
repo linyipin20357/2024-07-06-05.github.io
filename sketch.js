@@ -4,11 +4,12 @@ let speeds = [];
 let xOffsets = [];
 let xSpeeds = [];
 let startAnimation = false;
-let userText = '';
-let numImages = 3; // 图片数量
+let userTexts = [];
+let numImages = 5; // 图片数量
 
 let bgImage;
-let say_something = "";
+let poems = ["萱草葉如絲，微風吹不知。", "夜來花影動，香隨夢境深。", "春日嬌羞笑，綠葉輕舞蓮。", "晨曦照萱影，清香滿庭間。", "雨後新生意，青青萱草綠。"];
+let lastPoemIndices = []; // 记录上一次显示的诗句索引
 
 function preload() {
   // 预载图片和背景图片
@@ -31,10 +32,12 @@ function setup() {
     let centerOffset = width / 4;
     xOffsets[i] = centerOffset + (i * (width / 2) / (numImages - 1));
     xSpeeds[i] = random(-1, 1);
+    
+    // 随机选择一句诗作为 userText
+    chooseRandomPoem(i);
   }
 
-  // 启动语音识别
-  speechRecognition();
+  startAnimation = true;
 }
 
 function draw() {
@@ -55,10 +58,10 @@ function draw() {
       image(imgs[i], xOffsets[i], positions[i], imgs[i].width / 2, imgs[i].height / 2);
 
       // 绘制文字（直式）
-      let textArray = userText.split('');
+      let textArray = userTexts[i].split('');
       for (let j = 0; j < textArray.length; j++) {
         fill(0);
-        textSize(28);
+        textSize(25);
         textAlign(CENTER, CENTER);
         text(textArray[j], xOffsets[i], positions[i] - imgs[i].height / 10 + j * 32);
       }
@@ -78,45 +81,11 @@ function draw() {
   }
 }
 
-function startAnimationFunction() {
-  // 开始动画
-  if (say_something !== '') {
-    userText = say_something;
-    startAnimation = true;
+function chooseRandomPoem(index) {
+  let poemIndex = floor(random(poems.length));
+  while (lastPoemIndices.includes(poemIndex)) {
+    poemIndex = floor(random(poems.length));
   }
-}
-
-function speechRecognition() {
-  if (!("webkitSpeechRecognition" in window)) {
-    alert("本浏览器不支持语音识别，请更换浏览器！（Chrome 25 版以上才支持语音识别）");
-  } else {
-    window._recognition = new webkitSpeechRecognition();
-    window._recognition.continuous = true;
-    window._recognition.interimResults = true;
-    window._recognition.lang = "cmn-Hant-TW";
-    window._recognition.onstart = function() {
-      window._recognition.status = true;
-      console.log("Start recognize...");
-    };
-    window._recognition.onend = function() {
-      console.log("Stop recognize");
-      if (window._recognition.status) 
-        window._recognition.start();
-    };
-    window._recognition.onresult = function(event) {
-      let result = {};
-      result.resultLength = event.results.length - 1;
-      result.resultTranscript = event.results[result.resultLength][0].transcript;
-      say_something = "？？？";
-      if (event.results[result.resultLength].isFinal === false) {
-        say_something = result.resultTranscript;
-      } else if (event.results[result.resultLength].isFinal === true) {
-        say_something = result.resultTranscript;
-        startAnimationFunction(); // 语音输入确认后开始动画
-      }
-      // 注释掉以下行以避免错误
-      // document.getElementById("msg").innerHTML = say_something;
-    };
-    window._recognition.start();
-  }
+  userTexts[index] = poems[poemIndex];
+  lastPoemIndices[index] = poemIndex;
 }
