@@ -26,7 +26,7 @@ function setup() {
   // 初始化图片位置和速度
   for (let i = 0; i < numImages; i++) {
     positions[i] = height;
-    speeds[i] = random(3, 0.5);
+    speeds[i] = random(1, 0.5);
     
     // 使图片的 x 位置集中在画布的中间区域
     let centerOffset = width / 4;
