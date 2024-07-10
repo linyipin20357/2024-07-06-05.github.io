@@ -50,8 +50,7 @@ function draw() {
   background(0);
 
   // 绘制背景图片并保持在左上角
-  imageMode(CENTER); // 設定圖像模式為中心
-  //image(bgImage, 0, 0, width, height);
+  image(bgImage, 0, 0, width, height);
 
   if (startAnimation) {
     // 绘制和移动图片
